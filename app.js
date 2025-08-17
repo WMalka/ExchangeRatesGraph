@@ -57,11 +57,20 @@ class ExchangeRatesApp {
         infoDiv.style.display = 'block';
     }
 
+//     //for debugging purposes
+//     checkIfAllHaveKeys(data) {
+//     const allHaveKeys = data.every(item => item.hasOwnProperty('Key') && item.Key);
+//     console.log('Do all items have the "Key" property?', allHaveKeys);
+//     return allHaveKeys;
+// }
+
     processExchangeRateData(data) {
         // Sort data by currency key for better visualization
-        const sortedData = data.sort((a, b) => a.key.localeCompare(b.key));
-        
-        const labels = sortedData.map(item => item.key);
+        console.log('processExchangeRateData(): Raw data:', data);
+        const sortedData = data.sort((a, b) => a.Key.localeCompare(b.Key));
+        console.log('processExchangeRateData(): Sorted data:', sortedData);
+
+        const labels = sortedData.map(item => item.Key);
         const rates = sortedData.map(item => item.currentExchangeRate);
         const changes = sortedData.map(item => item.currentChange);
         const lastUpdate = sortedData.length > 0 ? new Date(sortedData[0].lastUpdate).toLocaleString() : 'Unknown';
@@ -193,7 +202,7 @@ class ExchangeRatesApp {
         
         try {
             const data = await this.fetchExchangeRates();
-            
+            console.log('fetchAndDisplayData(): Data received:', data);
             if (!data || data.length === 0) {
                 this.showError('No exchange rate data available');
                 return;
